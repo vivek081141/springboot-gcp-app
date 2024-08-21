@@ -13,7 +13,7 @@
 
 	<groupId>com.springboot</groupId>
 	<artifactId>spring-gcp-app</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-gcp-app</name>
 	<description>Demo project for Spring GCP</description>
 
