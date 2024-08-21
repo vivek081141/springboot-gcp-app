@@ -12,10 +12,10 @@
 	</parent>
 
 	<groupId>com.springboot</groupId>
-	<artifactId>spring-mongo-app</artifactId>
+	<artifactId>spring-gcp-app</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<name>spring-mongo-app</name>
-	<description>Demo project for Spring Boot</description>
+	<name>spring-gcp-app</name>
+	<description>Demo project for Spring GCP</description>
 
 	<properties>
 		<java.version>17</java.version>
@@ -29,10 +29,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.data</groupId>

@@ -1,11 +1,9 @@
 package com.springboot.starter.controller;
 
 import com.springboot.starter.bean.Person;
-import com.springboot.starter.dao.PersonRepository;
 import com.springboot.starter.exception.BadInputException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -13,13 +11,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -29,51 +28,31 @@ public class PersonController {
 
     private BeanPropertyBindingResult error;
 
-    @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private PersonValidator personValidator;
+    Map<String, Person> personMap = new HashMap<>();
 
     @GetMapping(path = "/getPerson/{id}" )
-    public ResponseEntity getPerson(@PathVariable @NotNull String id)  {
-        Optional<Person> personEntity = personRepository.findById(id);
+    public ResponseEntity<Person> getPerson(@PathVariable @NotNull String id)  {
+
+        Person personEntity = personMap.get(id);
         return ResponseEntity.ok().body(personEntity);
     }
 
-    @GetMapping(path = "/health" )
-    public ResponseEntity health()  {
-        return ResponseEntity.ok().body("OK");
-    }
+
 
     @GetMapping(path = "/getPersons" )
-    public ResponseEntity getPersons()  {
-        List<Person> personEntity = personRepository.findAll();
+    public ResponseEntity<List<Person>> getPersons()  {
+        List<Person> personEntity = new ArrayList<>(personMap.values());
         return ResponseEntity.ok().body(personEntity);
     }
 
 
     @PostMapping(path = "/createPerson" )
-    public ResponseEntity createPerson(@Valid @RequestBody Person person, BindingResult bindingResult)  {
-        //BindingResult bindingResult = new BeanPropertyBindingResult(person, "person");
-        personValidator.validate(person, bindingResult);
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person, BindingResult bindingResult)  {
+        personMap.put(person.getPersonId(), person);
         if (bindingResult.hasErrors()){
             throw new BadInputException(bindingResult);
         }
-        return ResponseEntity.ok().body(personRepository.save(person));
+        return ResponseEntity.ok().body(person);
     }
-
-    @PutMapping(path = "updatePerson")
-    public ResponseEntity updatePerson(@RequestBody Person person)  {
-        Optional<Person> personEntity = personRepository.findById(person.getPersonId());
-        if (personEntity.isPresent()){
-            personRepository.save(person);
-        }
-        return ResponseEntity.ok().body(personEntity);
-    }
-
-
-
-
 
 }

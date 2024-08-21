@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-springboot-mongo-app
+  namespace: default
+  labels:
+    app: my-springboot-mongo-app
 spec:
   replicas: 1
   selector:
