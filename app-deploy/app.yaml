@@ -1,0 +1,24 @@
+runtime: custom
+env: flex
+
+service: default
+
+instance_class: F2
+
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 2
+  cool_down_period_sec: 90
+  cpu_utilization:
+    target_utilization: 0.50
+
+resources:
+  cpu: 2
+  memory_gb: 2.0
+  disk_size_gb: 10
+
+env_variables:
+  SPRING_PROFILES_ACTIVE: prod
+
+entrypoint: java -Dserver.port=8080 -jar /spring-gcp-app.jar
+
